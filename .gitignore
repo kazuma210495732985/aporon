@@ -1,4 +1,4 @@
-kaigo-sim/config.php
-kaigo-sim/data/*
-!kaigo-sim/data/.htaccess
-kaigo-sim.zip
+kaigo-taxi-simulator/config.php
+kaigo-taxi-simulator/data/*
+!kaigo-taxi-simulator/data/.htaccess
+kaigo-taxi-simulator.zip

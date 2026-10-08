@@ -1,13 +1,14 @@
-# kaigo-sim/ を Xserver に自動で反映する
+# kaigo-taxi-simulator/ を Xserver に自動で反映する
 # 必要な Secrets: XSERVER_SSH_KEY / XSERVER_SSH_PASSPHRASE / XSERVER_HOST / XSERVER_USER
 # サーバー上の config.php と data/（設定・申込データ）は上書きしない
+# public_html/kaigo-taxi-simulator/ の中にだけ書き込み、それ以外のファイルには触れない（削除もしない）
 name: Xserverへ反映
 
 on:
   push:
     branches: [claude/lucid-lamport-ptk1rt]
     paths:
-      - 'kaigo-sim/**'
+      - 'kaigo-taxi-simulator/**'
       - '.github/workflows/deploy-xserver.yml'
   workflow_dispatch:
 
@@ -47,11 +48,11 @@ jobs:
           HOST: ${{ secrets.XSERVER_HOST }}
           USER_ID: ${{ secrets.XSERVER_USER }}
         run: |
-          DEST="/home/${USER_ID}/${DOMAIN}/public_html/kaigo-sim/"
+          DEST="/home/${USER_ID}/${DOMAIN}/public_html/kaigo-taxi-simulator/"
           rsync -rltvz \
             -e "ssh -p ${SSH_PORT} -i ~/.ssh/deploy_key" \
             --include='/data/.htaccess' \
             --exclude='/data/*' \
             --exclude='/config.php' \
-            kaigo-sim/ "${USER_ID}@${HOST}:${DEST}"
-          echo "反映先: https://${DOMAIN}/kaigo-sim/"
+            kaigo-taxi-simulator/ "${USER_ID}@${HOST}:${DEST}"
+          echo "反映先: https://${DOMAIN}/kaigo-taxi-simulator/"

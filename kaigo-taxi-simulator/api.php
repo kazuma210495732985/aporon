@@ -166,6 +166,6 @@ try {
 } catch (UserError $e) {
     respond(['ok' => false, 'error' => $e->getMessage()], 400);
 } catch (Throwable $e) {
-    error_log('[kaigo-sim] ' . $e);
+    error_log('[kaigo-taxi-simulator] ' . $e);
     respond(['ok' => false, 'error' => 'エラーが発生しました。時間をおいてお試しいただくか、お電話でお問い合わせください。'], 500);
 }

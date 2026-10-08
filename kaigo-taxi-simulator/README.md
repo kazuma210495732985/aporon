@@ -25,7 +25,7 @@ WordPress に依存しない独立した PHP アプリなので、WP サイト�
 ## フォルダ構成
 
 ```
-kaigo-sim/
+kaigo-taxi-simulator/
 ├── config.sample.php  設定のひな型 → config.php にコピーして使う
 ├── api.php            ウィジェットが呼ぶAPI（料金計算・申込）
 ├── index.php          動作確認用ページ
@@ -41,11 +41,11 @@ kaigo-sim/
 
 ### 1. ファイルをアップロード
 1. `config.sample.php` をコピーして `config.php` を作り、最低限 `admin_password` を変更する。
-2. `kaigo-sim` フォルダごと、サイトのドキュメントルートにアップロードする。
-   例: `/ドメイン名/public_html/kaigo-sim/`
+2. `kaigo-taxi-simulator` フォルダごと、サイトのドキュメントルートにアップロードする。
+   例: `/ドメイン名/public_html/kaigo-taxi-simulator/`
    - WordPress が同じドメインにあっても、実在するフォルダは WP より優先されるので問題ありません。
-3. `https://ドメイン/kaigo-sim/` を開いてシミュレーターが表示されればOK。
-4. `https://ドメイン/kaigo-sim/admin/` にログインして、料金を設定する。
+3. `https://ドメイン/kaigo-taxi-simulator/` を開いてシミュレーターが表示されればOK。
+4. `https://ドメイン/kaigo-taxi-simulator/admin/` にログインして、料金を設定する。
 
 PHP 8.0 以上が必要です（Xserver のサーバーパネル「PHP Ver.切替」で確認）。
 
@@ -79,7 +79,7 @@ LINE Official Account Manager の「設定」→「アカウント設定」で�
 
 ```html
 <div id="kaigo-taxi-sim"></div>
-<script src="https://ドメイン/kaigo-sim/assets/widget.js" defer></script>
+<script src="https://ドメイン/kaigo-taxi-simulator/assets/widget.js" defer></script>
 ```
 
 | scriptタグに付けられる属性 | 内容 |

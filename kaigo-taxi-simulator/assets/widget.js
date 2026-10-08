@@ -3,7 +3,7 @@
  *
  * 使い方（WordPressならカスタムHTMLブロックに貼る）:
  *   <div id="kaigo-taxi-sim"></div>
- *   <script src="https://example.com/kaigo-sim/assets/widget.js" defer></script>
+ *   <script src="https://example.com/kaigo-taxi-simulator/assets/widget.js" defer></script>
  *
  * script タグの属性（任意）:
  *   data-target  … 表示先のセレクタ（既定: #kaigo-taxi-sim）
