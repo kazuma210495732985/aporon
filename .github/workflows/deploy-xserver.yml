@@ -1,0 +1,57 @@
+# kaigo-sim/ を Xserver に自動で反映する
+# 必要な Secrets: XSERVER_SSH_KEY / XSERVER_SSH_PASSPHRASE / XSERVER_HOST / XSERVER_USER
+# サーバー上の config.php と data/（設定・申込データ）は上書きしない
+name: Xserverへ反映
+
+on:
+  push:
+    branches: [claude/lucid-lamport-ptk1rt]
+    paths:
+      - 'kaigo-sim/**'
+      - '.github/workflows/deploy-xserver.yml'
+  workflow_dispatch:
+
+concurrency: deploy-xserver
+
+env:
+  DOMAIN: merci2.xbiz.jp
+  SSH_PORT: 10022
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: SSH鍵を準備
+        env:
+          SSH_KEY: ${{ secrets.XSERVER_SSH_KEY }}
+          SSH_PASSPHRASE: ${{ secrets.XSERVER_SSH_PASSPHRASE }}
+          HOST: ${{ secrets.XSERVER_HOST }}
+        run: |
+          if [ -z "$SSH_KEY" ] || [ -z "$HOST" ]; then
+            echo "::error::Secrets（XSERVER_SSH_KEY / XSERVER_HOST）が登録されていません"
+            exit 1
+          fi
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" | tr -d '\r' > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          # Xserver で作った鍵はパスフレーズ付きなので、この作業用マシン上でだけ外す
+          if [ -n "$SSH_PASSPHRASE" ]; then
+            ssh-keygen -p -P "$SSH_PASSPHRASE" -N "" -f ~/.ssh/deploy_key > /dev/null
+          fi
+          ssh-keyscan -p "$SSH_PORT" "$HOST" >> ~/.ssh/known_hosts 2> /dev/null
+
+      - name: ファイルを転送
+        env:
+          HOST: ${{ secrets.XSERVER_HOST }}
+          USER_ID: ${{ secrets.XSERVER_USER }}
+        run: |
+          DEST="/home/${USER_ID}/${DOMAIN}/public_html/kaigo-sim/"
+          rsync -rltvz \
+            -e "ssh -p ${SSH_PORT} -i ~/.ssh/deploy_key" \
+            --include='/data/.htaccess' \
+            --exclude='/data/*' \
+            --exclude='/config.php' \
+            kaigo-sim/ "${USER_ID}@${HOST}:${DEST}"
+          echo "反映先: https://${DOMAIN}/kaigo-sim/"
