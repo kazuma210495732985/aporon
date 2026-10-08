@@ -82,6 +82,11 @@ if ($page === 'logout') {
     redirect('');
 }
 
+// パスワード未設定なら画面ログインは省略する（サーバー側の Basic 認証などで守る前提）
+if (app_config()['admin_password'] === '') {
+    $_SESSION['admin'] = true;
+}
+
 if (empty($_SESSION['admin'])) {
     if ($isPost) {
         if (!rate_limit('login', client_ip(), 10, 900)) {
@@ -202,7 +207,7 @@ function layout(string $title, callable $body, bool $nav = true): void
     <a href="?page=settings" class="<?= $page === 'settings' ? 'on' : '' ?>">料金・設定</a>
     <a href="?page=test" class="<?= $page === 'test' ? 'on' : '' ?>">料金テスト</a>
     <a href="../" target="_blank">シミュレーター表示</a>
-    <a href="?page=logout" class="right">ログアウト</a>
+    <?php if (app_config()['admin_password'] !== ''): ?><a href="?page=logout" class="right">ログアウト</a><?php endif ?>
 </nav>
 <?php endif ?>
 <main>

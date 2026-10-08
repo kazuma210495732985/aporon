@@ -12,9 +12,9 @@ return [
     // true にすると Google を呼ばず、住所から作ったダミー距離で計算します（動作確認用）
     'mock_distance' => true,
 
-    // 管理画面のパスワード（必ず変更してください）
+    // 管理画面のパスワード。空なら画面ログインなし（Basic 認証などで守る場合）
     // password_hash() で作ったハッシュ（$2y$...）を入れることもできます
-    'admin_password' => 'change-me',
+    'admin_password' => '',
 
     // 別ドメインのサイトに埋め込む場合のみ、そのサイトのURLを列挙（同じドメインなら空でOK）
     // 例: ['https://www.example.com']
