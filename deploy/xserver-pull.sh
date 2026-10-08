@@ -19,19 +19,22 @@ LOG="$HOME/kaigo-taxi-simulator-deploy.log"
 exec 9> "$HOME/.kaigo-taxi-simulator-deploy.lock"
 flock -n 9 || exit 0
 
+STATE="$HOME/.kaigo-taxi-simulator-deployed"
+
 cd "$REPO_DIR"
 git fetch -q origin "$BRANCH"
+TARGET="$(git rev-parse FETCH_HEAD)"
 
-if [ -d "$DEST" ] && [ "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)" ]; then
+# 最後に反映できた版と同じで、反映先も残っていれば何もしない
+if [ -d "$DEST" ] && [ "$(cat "$STATE" 2> /dev/null)" = "$TARGET" ]; then
   exit 0
 fi
 
-git reset -q --hard FETCH_HEAD
-mkdir -p "$DEST"
-rsync -rlt \
-  --include='/data/.htaccess' \
-  --exclude='/data/*' \
-  --exclude='/config.php' \
-  "$REPO_DIR/$APP/" "$DEST"
+git reset -q --hard "$TARGET"
+mkdir -p "$DEST/data"
+tar -C "$REPO_DIR/$APP" --exclude='./config.php' --exclude='./data' -cf - . | tar -C "$DEST" -xf -
+cp "$REPO_DIR/$APP/data/.htaccess" "$DEST/data/.htaccess"
 
-echo "$(date '+%Y-%m-%d %H:%M:%S') 反映しました $(git rev-parse --short HEAD)" >> "$LOG"
+# コピーまで成功したときだけ記録する（失敗したら次回やり直す）
+echo "$TARGET" > "$STATE"
+echo "$(date '+%Y-%m-%d %H:%M:%S') 反映しました ${TARGET:0:7}" >> "$LOG"
