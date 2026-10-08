@@ -14,20 +14,17 @@ function app_config(): array
 {
     static $config = null;
     if ($config === null) {
+        // config.php が無くても動く（Google のキーが無いのでテストモードになる）
         $file = APP_ROOT . '/config.php';
-        if (!is_file($file)) {
-            http_response_code(500);
-            exit('config.php がありません。config.sample.php をコピーして作成してください。');
-        }
         $config = array_merge([
             'google_maps_api_key' => '',
-            'mock_distance' => false,
+            'mock_distance' => true,
             'admin_password' => '',
             'allowed_origins' => [],
             'quote_limit_per_hour' => 40,
             'apply_limit_per_hour' => 5,
             'mail_from' => '',
-        ], require $file);
+        ], is_file($file) ? require $file : []);
     }
     return $config;
 }
