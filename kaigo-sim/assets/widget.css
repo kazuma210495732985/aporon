@@ -1,0 +1,83 @@
+/* 介護タクシー料金シミュレーター 最小限のスタイル（サイト側で自由に上書き可） */
+.kts {
+  --kts-accent: #2563eb;
+  --kts-line: #06c755;
+  --kts-border: #d4d4d8;
+  --kts-error: #dc2626;
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #18181b;
+  box-sizing: border-box;
+}
+.kts *, .kts *::before, .kts *::after { box-sizing: inherit; }
+.kts [hidden] { display: none !important; }
+
+.kts-step, .kts-result, .kts-done {
+  border: 1px solid var(--kts-border);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  background: #fff;
+}
+.kts-title { margin: 0 0 16px; font-size: 1.2em; }
+
+.kts-field { margin-bottom: 14px; }
+.kts-label { display: block; font-weight: bold; margin-bottom: 4px; }
+.kts-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.kts-row .kts-field { flex: 1 1 200px; }
+
+.kts input[type=text], .kts input[type=tel], .kts input[type=date], .kts input[type=time],
+.kts select, .kts textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--kts-border);
+  border-radius: 6px;
+  font: inherit;
+  background: #fff;
+}
+.kts-radio, .kts-check { display: block; margin: 4px 0; cursor: pointer; }
+.kts-radio { display: inline-block; margin-right: 16px; }
+.kts-agree { margin: 16px 0 8px; }
+.kts-hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
+
+.kts-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--kts-accent);
+  color: #fff;
+  font: inherit;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.kts-btn:disabled { opacity: .5; cursor: wait; }
+.kts-btn-line { background: var(--kts-line); }
+.kts-btn-sub { background: #71717a; }
+
+.kts-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+.kts-table th, .kts-table td { padding: 8px 4px; border-bottom: 1px solid var(--kts-border); }
+.kts-table th { text-align: left; font-weight: normal; }
+.kts-table td { text-align: right; white-space: nowrap; }
+.kts-total th, .kts-total td { font-weight: bold; font-size: 1.25em; border-bottom: 2px solid #18181b; }
+
+.kts-meta { margin: 0; }
+.kts-note { font-size: .875em; color: #52525b; }
+.kts-attr { font-size: .75em; color: #a1a1aa; text-align: right; margin: 0; }
+.kts-error { color: var(--kts-error); font-weight: bold; }
+.kts-out { color: var(--kts-error); font-weight: bold; }
+.kts-mock { background: #fef3c7; padding: 8px 12px; border-radius: 6px; font-size: .875em; }
+.kts-message {
+  white-space: pre-wrap;
+  word-break: break-all;
+  background: #f4f4f5;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: .875em;
+}

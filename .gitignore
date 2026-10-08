@@ -1,0 +1,3 @@
+kaigo-sim/config.php
+kaigo-sim/data/*
+!kaigo-sim/data/.htaccess
